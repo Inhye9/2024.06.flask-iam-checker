@@ -1,16 +1,12 @@
-# flask-aws-iam-check
+# 📌flask-aws-iam-check
 
 AWS IAM User의 Access Key Pair 생성시간이 지정기간(N) 초과하는 UserID와 Acess Key ID를 조회하는 어플리케이션 
-
-
 
 # 📌설명
 
 - Terraform으로 AWS 환경에 Minikube 서버 구축
 - Docker로 Application Image 생성
 - Minikube에 Service, Deployment 배포
-
-
 
 # 📌버전 확인
 
@@ -19,8 +15,6 @@ AWS IAM User의 Access Key Pair 생성시간이 지정기간(N) 초과하는 Use
 - Flask 2.2.5
 - boto3 1.33.13
 - pytz 2024.1
-
-
 
 # 📌상세 설명
 
@@ -40,7 +34,6 @@ key_pair_name   = "<key_pair_name>"
 my_pc_ip        = "<my_pc_ip>"
 ```
 
-
 ### 2) teraform 적용
 
 **terraform/environment/test/**
@@ -50,7 +43,6 @@ terraform init
 terraform plan -var-file=test.tfvars 
 terraform apply -var-file=test.tfvars 
 ```
-
 
 ### 3) minikube start
 
@@ -68,6 +60,9 @@ minikube addons enable dashboard
 minikube kubectl -- get po -n kube-system
 ```
 
+- `minikube start —driver=docker`의 결과 >
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/796714c1-2d78-40f2-b295-fcb6e44fe08c/6ec55b34-e7a4-45c2-b73a-d6c3ed41866b/Untitled.png)
 
 ## 2. Docker Image 생성
 
@@ -85,23 +80,44 @@ eval $(minikube docker-env)
 # docker build -> aws-iam-check:v1.0 생성 
 docker build -t aws-iam-checker:v1.0 . 
 
-# (참고) docker run으로 이미지 검증  
-docker run -it -p 5000:5000 aws-iam-checker:v1.0
+# docker run으로 이미지 검증  
+ocker run -it -p 5000:5000 -e AWS_ACCESS_KEY_ID=<AWS_ACESS_KEY_ID> -e AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY> aws-iam-checker:v1.0
 ```
-
 
 ## 3. Kubernetes Service,Deployment 배포
 
-### 1) kubernetes deployment, service 배포
+### 1)  AWS ACCESS KEY ID, KEY 값 BASE64로 인코딩
+
+```bash
+echo -n 'your-access-key-id' | base64
+echo -n 'your-secret-access-key' | base64
+```
+
+### 2) Kubernetes Secret.yaml에 BASE64 인코딩 값 입력
+
+`./kubernetes/secret.yaml` 
+
+```bash
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aws-iam-checker-secret
+type: Opaque
+data:
+  AWS_ACCESS_KEY_ID: <base64-encoded-access-key-id>
+  AWS_SECRET_ACCESS_KEY: <base64-encoded-secret-access-key>
+```
+
+### 3) kubernetes deployment, service 배포
 
 ```bash
 # kubernetes deployment, service 배포 
+minikube kubectl -- apply -f ./kubernetes/secret.yaml
 minikube kubectl -- apply -f ./kubernetes/service.yaml
 minikube kubectl -- apply -f ./kubernetes/deployment.yaml
 
 minikube kubectl -- get all 
 ```
-
 
 ## 4. 브라우저 호출 확인
 
@@ -117,13 +133,16 @@ minikube addons list
 minikube kubectl -- proxy --address='0.0.0.0' --disable-filter=true
 ```
 
+- `minikube kubectl -- proxy --address='0.0.0.0' --disable-filter=true`의 결과 >
+    
+    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/796714c1-2d78-40f2-b295-fcb6e44fe08c/92ab0e30-e5b1-4b3f-af2a-493347eae3cc/Untitled.png)
     
 
 2) 호출 링크로 호출 
 
 ```bash
 # 생성한지 48시간 경과한 Access Key Pair의 User ID와 Access Key ID 찾기 
-http://<퍼블릭IP>:8001/api/v1/namespaces/default/services/http:aws-iam-checker-service:/proxy/old-access-key-user?N=48
+http://<퍼블릭IP>:8001/api/v1/namespaces/default/services/http:aws-iam-checker-service:/proxy/old-access-key-users?N=48
 ```
 
 - 결과
@@ -131,8 +150,6 @@ http://<퍼블릭IP>:8001/api/v1/namespaces/default/services/http:aws-iam-checke
 ```bash
 [{"AccessKeyId":"--------","UserId":"--------"},{"AccessKeyId":"--------","UserId":"--------"},{"AccessKeyId":"--------","UserId":"--------"}]
 ```
-
-
 
 # 📌참고
 

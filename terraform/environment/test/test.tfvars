@@ -1,0 +1,6 @@
+region          = "ap-northeast-2"
+vpc_id          = "vpc-06943b61413e58486" 
+subnet_id       = "subnet-012bc0bc3effda7d9"
+name            = "flask-aws-iam-checker"
+instance_type   = "t3.large"
+key_pair_name   = "aws-iam-check-keypair" 

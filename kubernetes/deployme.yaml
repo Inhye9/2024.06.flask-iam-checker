@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aws-iam-checker-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aws-iam-checker
+  template:
+    metadata:
+      labels:
+        app: aws-iam-checker
+    spec:
+      containers:
+      - name: aws-iam-checker
+        image: aws-iam-checker:v1.0
+        ports:
+        - containerPort: 5000

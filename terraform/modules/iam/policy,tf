@@ -1,0 +1,22 @@
+# IAM 정책 정의
+resource "aws_iam_policy" "list_iam_policy" {
+  name        = "${var.name}-iam-pol"
+  description = "Policy to allow listing IAM users and access keys"
+  policy      = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "iam:ListUsers",
+          "iam:ListAccessKeys"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+
+  tags = merge(local.common_tags,{
+    Name = "${var.name}-iam-pol"
+  })
+}

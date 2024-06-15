@@ -17,6 +17,17 @@ spec:
         image: aws-iam-checker:v1.0
         ports:
         - containerPort: 5000
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-iam-checker-secret
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-iam-checker-secret
+              key: AWS_SECRET_ACCESS_KEY
         securityContext:
           runAsUser: 1000
           runAsGroup: 1000

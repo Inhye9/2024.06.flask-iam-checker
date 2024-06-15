@@ -2,12 +2,20 @@ from flask import Flask, request, jsonify, abort
 import boto3
 import datetime
 import pytz
+import os
 
 # Flask 초기화 
 app = Flask(__name__)
 
 # AWS IAM 클라이언트 초기화
-iam_client = boto3.client('iam')
+#iam_client = boto3.client('iam')
+aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+iam_client = boto3.client(
+    'iam',
+    aws_access_key_id=aws_access_key_id,
+    aws_secret_access_key=aws_secret_access_key
+)
 
 # TimeZone = Asia/Seoul 설정 
 seoul_tz = pytz.timezone('Asia/Seoul')

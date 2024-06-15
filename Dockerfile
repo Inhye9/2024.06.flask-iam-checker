@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r pip-packages.txt
 EXPOSE 5000
 
 # Command to run the application
-CMD ["python", "iam-check.py"]
+CMD ["python", "aws-iam-checker-app.py"]

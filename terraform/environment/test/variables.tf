@@ -29,4 +29,3 @@ variable "key_pair_name" {
   description = "The key pair name to use for EC2 instances."
   type        = string
 }
-

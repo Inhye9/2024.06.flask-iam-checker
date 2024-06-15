@@ -12,7 +12,7 @@ resource "aws_instance" "ec2" {
   subnet_id     = var.subnet_id
   vpc_security_group_ids  = [var.security_group_id]
   iam_instance_profile  = var.instance_profile_role
-  
+
   root_block_device {
     volume_type = "gp3"  # 볼륨 유형을 gp3로 설정
     volume_size = 30     # 볼륨 크기를 30GB로 설정
@@ -49,22 +49,6 @@ resource "aws_instance" "ec2" {
               curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
               chmod +x kubectl
               sudo mv kubectl /usr/local/bin/
-
-              # Start Minikube with Docker driver
-              minikube start --driver=docker
-
-              # Enable Minikube dashboard
-              minikube addons enable dashboard
-
-              # Allow msinsa to run Minikube commands without sudo
-              sudo chown -R msinsa:msinsa /home/msinsa/.minikube /home/msinsa/.kube
-              '
-
-              # Set alias for kubectl
-              sudo -u msinsa echo \'alias kubectl="minikube kubectl --"\' >> /home/msinsa/.bash_profile
-              sudo -u msinsa echo \'alias k="minikube kubectl --"\' >> /home/msinsa/.bash_profile
-
-              sudo -u msinsa source /home/msinsa/.bash_profile
 
               EOF
 

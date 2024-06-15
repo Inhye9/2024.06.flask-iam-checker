@@ -1,4 +1,4 @@
-# 📌flask-aws-iam-check
+# flask-aws-iam-check
 
 AWS IAM User의 Access Key Pair 생성시간이 지정기간(N) 초과하는 UserID와 Acess Key ID를 조회하는 어플리케이션 
 

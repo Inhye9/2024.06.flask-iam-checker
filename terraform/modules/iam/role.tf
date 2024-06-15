@@ -5,7 +5,7 @@ locals {
   }
 }
 
-# EC2 SSM ROle 생성 
+# EC2 SSM ROle 생성
 resource "aws_iam_role" "ec2_ssm_role" {
   name = "${var.name}-ec2_ssm_role"
 
@@ -27,7 +27,14 @@ resource "aws_iam_role" "ec2_ssm_role" {
   })
 }
 
+# SSM 정책 첨부
 resource "aws_iam_role_policy_attachment" "ec2_ssm_policy_attachment" {
   role       = aws_iam_role.ec2_ssm_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+# IAM 역할 정책 첨부
+resource "aws_iam_role_policy_attachment" "attach_list_iam_policy" {
+  role       = aws_iam_role.ec2_ssm_role.name
+  policy_arn = aws_iam_policy.list_iam_policy.arn
 }

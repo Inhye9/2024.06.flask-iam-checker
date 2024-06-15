@@ -10,16 +10,26 @@ resource "aws_security_group" "sg" {
   description = "Security group for EC2 instance"
   vpc_id      = var.vpc_id
 
+  # ssh port
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["221.147.81.167/32"]   #로컬 PC IP
+    cidr_blocks = ["${var.my_pc_ip}/32"]   #로컬 PC IP
   }
 
+  # docker run test port
   ingress {
     from_port   = 5000
     to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # minikube proxy port
+  ingress {
+    from_port   = 8001
+    to_port     = 8001
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

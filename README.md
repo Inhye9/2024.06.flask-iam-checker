@@ -2,11 +2,15 @@
 
 AWS IAM User의 Access Key Pair 생성시간이 지정기간(N) 초과하는 UserID와 Acess Key ID를 조회하는 어플리케이션 
 
+
+
 # 📌설명
 
 - Terraform으로 AWS 환경에 Minikube 서버 구축
 - Docker로 Application Image 생성
 - Minikube에 Service, Deployment 배포
+
+
 
 # 📌버전 확인
 
@@ -15,6 +19,8 @@ AWS IAM User의 Access Key Pair 생성시간이 지정기간(N) 초과하는 Use
 - Flask 2.2.5
 - boto3 1.33.13
 - pytz 2024.1
+
+
 
 # 📌상세 설명
 
@@ -34,6 +40,7 @@ key_pair_name   = "<key_pair_name>"
 my_pc_ip        = "<my_pc_ip>"
 ```
 
+
 ### 2) teraform 적용
 
 **terraform/environment/test/**
@@ -43,6 +50,7 @@ terraform init
 terraform plan -var-file=test.tfvars 
 terraform apply -var-file=test.tfvars 
 ```
+
 
 ### 3) minikube start
 
@@ -81,6 +89,7 @@ docker build -t aws-iam-checker:v1.0 .
 docker run -it -p 5000:5000 aws-iam-checker:v1.0
 ```
 
+
 ## 3. Kubernetes Service,Deployment 배포
 
 ### 1) kubernetes deployment, service 배포
@@ -92,6 +101,7 @@ minikube kubectl -- apply -f ./kubernetes/deployment.yaml
 
 minikube kubectl -- get all 
 ```
+
 
 ## 4. 브라우저 호출 확인
 
@@ -121,6 +131,8 @@ http://<퍼블릭IP>:8001/api/v1/namespaces/default/services/http:aws-iam-checke
 ```bash
 [{"AccessKeyId":"--------","UserId":"--------"},{"AccessKeyId":"--------","UserId":"--------"},{"AccessKeyId":"--------","UserId":"--------"}]
 ```
+
+
 
 # 📌참고
 

@@ -2,11 +2,12 @@ provider "aws" {
   region = var.region
 }
 
-# vpc 
+# vpc
 module "vpc" {
   source = "../../modules/vpc"
   vpc_id       = var.vpc_id
   name         = var.name
+  my_pc_ip     = var.my_pc_ip
 }
 
 # ec2
@@ -27,4 +28,3 @@ module "iam" {
   vpc_id             = var.vpc_id
   name              = var.name
 }
-

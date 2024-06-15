@@ -17,3 +17,6 @@ spec:
         image: aws-iam-checker:v1.0
         ports:
         - containerPort: 5000
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000

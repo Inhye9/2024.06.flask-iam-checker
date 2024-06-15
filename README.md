@@ -60,9 +60,6 @@ minikube addons enable dashboard
 minikube kubectl -- get po -n kube-system
 ```
 
-- `minikube start —driver=docker`의 결과 >
-
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/796714c1-2d78-40f2-b295-fcb6e44fe08c/6ec55b34-e7a4-45c2-b73a-d6c3ed41866b/Untitled.png)
 
 ## 2. Docker Image 생성
 
@@ -110,9 +107,6 @@ minikube addons list
 minikube kubectl -- proxy --address='0.0.0.0' --disable-filter=true
 ```
 
-- `minikube kubectl -- proxy --address='0.0.0.0' --disable-filter=true`의 결과 >
-    
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/796714c1-2d78-40f2-b295-fcb6e44fe08c/92ab0e30-e5b1-4b3f-af2a-493347eae3cc/Untitled.png)
     
 
 2) 호출 링크로 호출 

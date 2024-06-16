@@ -6,7 +6,7 @@ AWS IAM User의 Access Key Pair 생성시간이 지정기간(N) 초과하는 Use
 
 - Terraform으로 AWS 환경에 Minikube 서버 구축
 - Docker로 Application Image 생성
-- Minikube에 Service, Deployment 배포
+- Minikube에 Secret, Service, Deployment 배포
 
 # 📌버전 확인
 
